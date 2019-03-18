@@ -8,21 +8,22 @@ const server = express();
 // makes POST and PUT work
 server.use(express.json())
 
-server.get('/api/users', (req, res) => {
-    res.send('Hello from index.js!');
-});
+// server.get('/api/users', (req, res) => {
+//     res.send('Hello from index.js!');
+// });
 
 // POST to request to /db/users
 server.post('/api/users', (req, res) => {
-    if (req === null ) {
-        // cancel req
+    const newUser = req.body;
+
+    if (newUser === null ) {
         res.status(400).json( { errorMessage: 'Please provide name and bio for the user.' })
-    } else (req === /*valid*/) {
-        res.status(201).insert();  // save to database
-        // return new entry
+    } else {
+        const newUserID = db.insert(newUser);  // saves new user into data
+        res.status(201).json(db.findById(newUserID));
+
     } 
     if ( /*error in saving user*/ ) {
-        // cancel request
         res.status(500).json( { 'error: "There was an error while saving the user to the database.' })
     }
 }); 
@@ -30,7 +31,6 @@ server.post('/api/users', (req, res) => {
 // GET
 server.get('/api/users', (req, res) => {
    if ( /* error getting user from database */ ) {
-       // cancel request
        res.status(500).json( { 'error: "The users information could not be retrieved.' });
    }
 });
@@ -62,11 +62,9 @@ server.put('/api/users/:id', (req, res) => {
         res.status(404).json({'message: The user with the specified ID does not exist.' })
     }
     if ( /* request body is missing name or bio */) {
-        // cancel req
         res.status(400).json( { ' errorMessage: "Please provide name and bio for the user.' })
     }
     if ( /* error updating user */ ) {
-        // cancel req
         res.json( { 'error: "The user information could not be modified.' })
     }
     if ( /* user found and new info is valid */) {

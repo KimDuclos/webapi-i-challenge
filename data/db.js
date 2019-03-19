@@ -10,17 +10,6 @@ module.exports = {
   remove,
 };
 
-// user array
-let users = [
-  {
-    name: '',
-    bio: '',
-    created_at: '',
-    updated_at: ''
-  }
-]
-
-
 // functions to call in index.js
 function find() {
   return db('users');

@@ -10,6 +10,7 @@ module.exports = {
   remove,
 };
 
+// functions to call in index.js
 function find() {
   return db('users');
 }
